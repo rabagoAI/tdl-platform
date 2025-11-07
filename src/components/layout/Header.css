@@ -1,0 +1,214 @@
+/* Header.css - Modern header styles */
+
+:root {
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --secondary: #8b5cf6;
+  --danger: #ef4444;
+  --dark: #1f2937;
+  --light: #f0f9ff;
+  --white: #ffffff;
+}
+
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
+  animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+/* Logo Section */
+.header-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.header-logo-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.header-logo-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.header-logo-wrapper:hover .header-logo-icon {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(5deg);
+}
+
+.header-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-logo-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.header-logo-subtitle {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .header-logo-title {
+    font-size: 1.25rem;
+  }
+
+  .header-logo-subtitle {
+    font-size: 0.6rem;
+  }
+}
+
+/* User Section */
+.header-user-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  animation: slideInRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.header-user-info {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+@media (min-width: 769px) {
+  .header-user-info {
+    display: flex;
+  }
+}
+
+.header-user-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.header-user-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Logout Button */
+.header-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--danger);
+  color: var(--white);
+  border: none;
+  border-radius: 0.875rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.header-logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.header-logout-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 640px) {
+  .header-logout-btn span {
+    display: none;
+  }
+
+  .header-logout-btn {
+    padding: 0.65rem 0.75rem;
+  }
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Focus Visible for Accessibility */
+.header-logout-btn:focus-visible {
+  outline: 3px solid var(--light);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .header-wrapper,
+  .header-user-wrapper,
+  .header-logo-wrapper {
+    animation: none;
+  }
+
+  .header-logout-btn {
+    transition: none;
+  }
+}

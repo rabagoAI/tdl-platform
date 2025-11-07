@@ -1,30 +1,41 @@
 import React from 'react';
 import { useUserStore } from '../../stores/userStore';
-import { LogOut } from 'lucide-react';
+import { LogOut, Sparkles } from 'lucide-react';
+import './Header.css';
 
 export default function Header() {
   const { currentUser, clearUser } = useUserStore();
 
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">TDL Platform</h1>
-        
-        <div className="flex items-center gap-4">
-          {currentUser && (
-            <>
-              <span className="text-lg">Hola, {currentUser.name}</span>
-              <button
-                onClick={clearUser}
-                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition"
-                aria-label="Cerrar sesión"
-              >
-                <LogOut size={20} />
-                Salir
-              </button>
-            </>
-          )}
+    <header className="header-wrapper">
+      <div className="header-content">
+        <div className="header-logo-wrapper">
+          <div className="header-logo-icon">
+            <Sparkles size={24} color="white" />
+          </div>
+          <div className="header-logo-text">
+            <h1 className="header-logo-title">TDL Platform</h1>
+            <p className="header-logo-subtitle">Aprende y crece</p>
+          </div>
         </div>
+
+        {currentUser && (
+          <div className="header-user-wrapper">
+            <div className="header-user-info">
+              <span className="header-user-name">{currentUser.name}</span>
+              <span className="header-user-label">Bienvenido</span>
+            </div>
+
+            <button
+              onClick={clearUser}
+              className="header-logout-btn"
+              aria-label="Cerrar sesión"
+            >
+              <LogOut size={20} />
+              <span>Salir</span>
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

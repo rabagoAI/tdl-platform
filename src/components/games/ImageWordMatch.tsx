@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useUserStore } from '../../stores/userStore';
 import { announceToScreenReader } from '../../utils/accessibility';
-import { Check } from 'lucide-react';
+import { Check, RotateCcw } from 'lucide-react';
+import './ImageWordMatch.css';
 
 interface Pair {
   id: string;
@@ -13,6 +14,7 @@ export default function ImageWordMatch() {
   const [pairs, setPairs] = useState<Pair[]>([]);
   const [shuffledWords, setShuffledWords] = useState<Pair[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [matched, setMatched] = useState<string[]>([]);
   const [gameSaved, setGameSaved] = useState(false);
@@ -36,31 +38,39 @@ export default function ImageWordMatch() {
 
   const handleImageSelect = (imageId: string) => {
     if (matched.includes(imageId)) return;
-    
     setSelectedImage(imageId);
     announceToScreenReader(`Seleccionaste la imagen ${pairs.find(p => p.id === imageId)?.word}`);
   };
 
   const handleWordSelect = (wordId: string) => {
-    if (!selectedImage || matched.includes(wordId)) return;
+    if (matched.includes(wordId)) return;
+
+    if (!selectedImage) {
+      setSelectedWord(wordId);
+      announceToScreenReader(`Seleccionaste la palabra ${shuffledWords.find(w => w.id === wordId)?.word}`);
+      return;
+    }
 
     if (selectedImage === wordId) {
       setMatched([...matched, wordId]);
       setScore(score + 10);
       announceToScreenReader('¡Correcto! Excelente asociación');
       setSelectedImage(null);
+      setSelectedWord(null);
       setWrongAttempt(false);
     } else {
       setWrongAttempt(true);
       announceToScreenReader('Intenta de nuevo, esa no es la palabra correcta');
       setTimeout(() => {
         setSelectedImage(null);
+        setSelectedWord(null);
         setWrongAttempt(false);
       }, 1500);
     }
   };
 
   const isComplete = matched.length === pairs.length;
+  const progress = (matched.length / pairs.length) * 100;
 
   const handleSaveProgress = () => {
     addGameProgress('image-word-match', score, 'easy');
@@ -70,6 +80,7 @@ export default function ImageWordMatch() {
 
   const handleRestart = () => {
     setSelectedImage(null);
+    setSelectedWord(null);
     setScore(0);
     setMatched([]);
     setGameSaved(false);
@@ -79,86 +90,113 @@ export default function ImageWordMatch() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <div className="mb-8 flex justify-between items-center">
-        <h2 className="text-4xl font-bold text-blue-600">Asociación Imagen-Palabra</h2>
-        <div className="text-3xl font-bold text-green-600">Puntos: {score}</div>
+    <div className="game-container">
+      <div className="game-header">
+        <div className="game-title-section">
+          <div className="game-title-content">
+            <h2>Asociación Imagen-Palabra</h2>
+            <p>Relaciona cada imagen con su palabra correspondiente</p>
+          </div>
+          <div className="game-score-box">
+            <div className="game-score">{score}</div>
+            <div className="game-score-label">Puntos</div>
+          </div>
+        </div>
+
+        <div className="progress-bar-container">
+          <div
+            className="progress-bar-fill"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="progress-text">
+          {matched.length} de {pairs.length} pares completados
+        </div>
       </div>
 
       {!isComplete ? (
-        <div className="grid grid-cols-2 gap-8 mb-8">
-          <div>
-            <h3 className="text-xl font-bold text-gray-700 mb-4">Imágenes</h3>
-            <div className="grid grid-cols-2 gap-4">
+        <div className="game-grid">
+          <div className="game-column">
+            <h3 className="game-column-title">Imágenes</h3>
+            <div className="images-grid">
               {pairs.map((pair) => (
                 <button
                   key={pair.id}
                   onClick={() => handleImageSelect(pair.id)}
                   disabled={matched.includes(pair.id)}
-                  className={`p-6 rounded-2xl transition h-28 flex items-center justify-center text-6xl ${
-                    matched.includes(pair.id)
-                      ? 'bg-green-200 opacity-50 cursor-not-allowed'
-                      : selectedImage === pair.id
-                      ? 'bg-blue-400 scale-105 shadow-lg'
-                      : 'bg-yellow-300 hover:bg-yellow-400 cursor-pointer shadow-md'
-                  }`}
+                  className={`image-button ${
+                    matched.includes(pair.id) ? 'matched' : ''
+                  } ${selectedImage === pair.id ? 'selected' : ''}`}
                   aria-label={`Imagen de ${pair.word}`}
                 >
                   {pair.imageUrl}
+                  {matched.includes(pair.id) && (
+                    <div className="check-icon">
+                      <Check size={40} color="#16a34a" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
           </div>
 
-          <div>
-            <h3 className="text-xl font-bold text-gray-700 mb-4">Palabras</h3>
-            <div className="grid grid-cols-1 gap-3">
+          <div className="game-column">
+            <h3 className="game-column-title">Palabras</h3>
+            <div className="words-grid">
               {shuffledWords.map((word) => (
                 <button
                   key={word.id}
                   onClick={() => handleWordSelect(word.id)}
                   disabled={matched.includes(word.id)}
-                  className={`p-4 rounded-lg text-lg font-bold transition text-left ${
-                    matched.includes(word.id)
-                      ? 'bg-green-300 text-white opacity-50 cursor-not-allowed'
-                      : selectedImage === word.id
-                      ? 'bg-blue-500 text-white scale-105 shadow-lg'
-                      : wrongAttempt && selectedImage
-                      ? 'bg-red-400 text-white'
-                      : 'bg-purple-400 text-white hover:bg-purple-500 cursor-pointer shadow-md'
+                  className={`word-button ${
+                    matched.includes(word.id) ? 'matched' : ''
+                  } ${selectedWord === word.id ? 'selected' : ''} ${
+                    wrongAttempt && selectedImage ? 'wrong' : ''
                   }`}
                   aria-label={`Palabra: ${word.word}`}
                 >
                   {word.word}
+                  {matched.includes(word.id) && (
+                    <div className="check-icon">
+                      <Check size={20} color="#fff" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
           </div>
         </div>
       ) : (
-        <div className="bg-green-100 border-4 border-green-500 p-8 rounded-2xl text-center">
-          <Check size={64} className="mx-auto text-green-600 mb-4" />
-          <h3 className="text-3xl font-bold text-green-600">¡Completaste el juego!</h3>
-          <p className="text-2xl mt-4">Puntuación final: {score}</p>
+        <div className="completion-screen">
+          <div className="completion-icon">✓</div>
+          <h3 className="completion-title">¡Completaste el juego!</h3>
+          <div className="completion-score">
+            Puntuación final: <strong>{score} puntos</strong>
+          </div>
 
-          <div className="flex gap-4 mt-8 justify-center">
+          <div className="completion-buttons">
             {!gameSaved && (
               <button
                 onClick={handleSaveProgress}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold text-lg transition"
+                className="btn btn-save"
               >
+                <Check size={20} />
                 Guardar Progreso
               </button>
             )}
 
             {gameSaved && (
-              <p className="text-green-600 font-bold">✓ Progreso guardado</p>
+              <div className="btn btn-saved">
+                <Check size={20} />
+                Progreso guardado
+              </div>
             )}
 
             <button
               onClick={handleRestart}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-bold text-lg transition"
+              className="btn btn-restart"
             >
+              <RotateCcw size={20} />
               Jugar de Nuevo
             </button>
           </div>

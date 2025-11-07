@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/userStore';
 import { Gamepad2, BookOpen, BarChart3 } from 'lucide-react';
+import './Home.css';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -9,46 +10,60 @@ export default function Home() {
 
   if (!currentUser) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-8">
-        <h1 className="text-5xl font-bold text-blue-600">Bienvenido a TDL Platform</h1>
-        <p className="text-xl text-gray-600">Plataforma educativa para niños con TDL</p>
+      <div className="home-welcome">
+        <h1 className="home-welcome-title">Bienvenido a TDL Platform</h1>
+        <p className="home-welcome-subtitle">
+          Plataforma educativa especializada para niños con Trastorno del Desarrollo del Lenguaje
+        </p>
         <button
           onClick={() => navigate('/login')}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-bold transition"
+          className="home-welcome-button"
         >
-          Empezar
+          Empezar Ahora
         </button>
       </div>
     );
   }
 
+  const cards = [
+    {
+      title: 'Juegos',
+      description: 'Aprende jugando con ejercicios divertidos e interactivos',
+      icon: <Gamepad2 size={48} />,
+      path: '/games',
+    },
+    {
+      title: 'Cuentos',
+      description: 'Lee historias interactivas con audio y animaciones',
+      icon: <BookOpen size={48} />,
+      path: '/stories',
+    },
+    {
+      title: 'Progreso',
+      description: 'Visualiza tu avance, logros y estadísticas',
+      icon: <BarChart3 size={48} />,
+      path: '/progress',
+    },
+  ];
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div
-        onClick={() => navigate('/games')}
-        className="bg-gradient-to-br from-green-400 to-blue-500 p-8 rounded-lg cursor-pointer hover:shadow-lg transition text-white"
-      >
-        <Gamepad2 size={48} className="mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Juegos</h2>
-        <p>Aprende jugando con ejercicios divertidos</p>
-      </div>
+    <div className="home-wrapper">
+      <div className="home-container">
+        <h1 className="home-greeting">¡Hola {currentUser.name}! 👋</h1>
 
-      <div
-        onClick={() => navigate('/stories')}
-        className="bg-gradient-to-br from-purple-400 to-pink-500 p-8 rounded-lg cursor-pointer hover:shadow-lg transition text-white"
-      >
-        <BookOpen size={48} className="mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Cuentos</h2>
-        <p>Lee historias interactivas con audio</p>
-      </div>
-
-      <div
-        onClick={() => navigate('/progress')}
-        className="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-lg cursor-pointer hover:shadow-lg transition text-white"
-      >
-        <BarChart3 size={48} className="mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Progreso</h2>
-        <p>Visualiza tu avance y logros</p>
+        <div className="home-grid">
+          {cards.map((card) => (
+            <button
+              key={card.path}
+              onClick={() => navigate(card.path)}
+              className="home-card"
+            >
+              <div className="home-card-icon">{card.icon}</div>
+              <h2 className="home-card-title">{card.title}</h2>
+              <p className="home-card-description">{card.description}</p>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

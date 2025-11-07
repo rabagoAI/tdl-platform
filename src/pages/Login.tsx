@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../stores/userStore';
 import type { User, UserProgress } from '../types';
+import { Users } from 'lucide-react';
+import './Login.css';
 
 export default function Login() {
   const [name, setName] = useState('');
@@ -30,27 +32,39 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-8">
-      <h1 className="text-4xl font-bold text-blue-600">¿Cuál es tu nombre?</h1>
-      
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm">
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Escribe tu nombre"
-          className="px-4 py-3 border-2 border-blue-300 rounded-lg text-lg focus:outline-none focus:border-blue-600"
-          autoFocus
-          aria-label="Tu nombre"
-        />
-        
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-bold transition"
-        >
-          Continuar
-        </button>
-      </form>
+    <div className="login-wrapper">
+      <div className="login-container">
+        <div className="login-icon-wrapper">
+          <Users size={48} />
+        </div>
+
+        <div className="login-title-section">
+          <h1 className="login-title">¿Cuál es tu nombre?</h1>
+          <p className="login-subtitle">Vamos a empezar tu aventura</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="login-input-group">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Escribe tu nombre"
+              className="login-input"
+              autoFocus
+              aria-label="Tu nombre"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="login-submit-btn"
+            disabled={!name.trim()}
+          >
+            Continuar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

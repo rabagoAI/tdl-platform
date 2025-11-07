@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Home, Gamepad2, BookOpen, TrendingUp } from 'lucide-react';
+import './Navigation.css';
 
 export default function Navigation() {
+  const location = useLocation();
+  
   const navItems = [
     { path: '/', label: 'Inicio', icon: Home },
     { path: '/games', label: 'Juegos', icon: Gamepad2 },
@@ -11,20 +14,23 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className="bg-white shadow-md" role="navigation" aria-label="Navegación principal">
-      <div className="container mx-auto px-4">
-        <ul className="flex justify-center gap-8 py-4">
-          {navItems.map(({ path, label, icon: Icon }) => (
-            <li key={path}>
-              <Link
-                to={path}
-                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-semibold transition"
-              >
-                <Icon size={24} />
-                <span>{label}</span>
-              </Link>
-            </li>
-          ))}
+    <nav className="nav-wrapper" role="navigation" aria-label="Navegación principal">
+      <div className="nav-content">
+        <ul className="nav-list">
+          {navItems.map(({ path, label, icon: Icon }) => {
+            const isActive = location.pathname === path;
+            return (
+              <li key={path} className="nav-item">
+                <Link
+                  to={path}
+                  className={`nav-link ${isActive ? 'active' : ''}`}
+                >
+                  <Icon size={24} />
+                  <span>{label}</span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>
