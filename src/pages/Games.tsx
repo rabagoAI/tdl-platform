@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import ImageWordMatch from '../components/games/ImageWordMatch';
+import DBZSequence from '../components/games/DBZSequence';
 import './Games.css';
 
-type GameType = 'image-word' | null;
+type GameType = 'image-word' | 'dbz-sequence' | null;
 
 export default function Games() {
   const [selectedGame, setSelectedGame] = useState<GameType>(null);
@@ -18,18 +19,18 @@ export default function Games() {
       active: true,
     },
     {
+      id: 'dbz-sequence',
+      title: 'Transformaciones Dragon Ball Z',
+      description: 'Ordena las transformaciones de tus personajes favoritos',
+      icon: '🐉',
+      count: '3 personajes',
+      active: true,
+    },
+    {
       id: 'memory',
       title: 'Juego de Memoria',
       description: 'Encuentra los pares correctos en este juego de memoria',
       icon: '🎮',
-      count: 'Próximamente',
-      active: false,
-    },
-    {
-      id: 'complete',
-      title: 'Completar Palabras',
-      description: 'Completa las palabras faltantes para aprender',
-      icon: '✏️',
       count: 'Próximamente',
       active: false,
     },
@@ -77,6 +78,7 @@ export default function Games() {
 
         <div className="game-view">
           {selectedGame === 'image-word' && <ImageWordMatch />}
+          {selectedGame === 'dbz-sequence' && <DBZSequence />}
         </div>
       </div>
     </div>

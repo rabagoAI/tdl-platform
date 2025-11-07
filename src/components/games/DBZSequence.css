@@ -1,0 +1,393 @@
+/* DBZSequence.css - Dragon Ball Z Sequence Game Styles */
+
+:root {
+  --dbz-primary: #ff6b00;
+  --dbz-secondary: #ffd700;
+  --dbz-dark: #1a1a1a;
+  --dbz-light: #fff9e6;
+  --success: #22c55e;
+  --danger: #ef4444;
+}
+
+.dbz-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Header */
+.dbz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dbz-title-section h2 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.dbz-subtitle {
+  color: var(--dbz-dark);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.dbz-score-box {
+  text-align: right;
+}
+
+.dbz-score {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dbz-score-label {
+  font-size: 0.875rem;
+  color: var(--dbz-dark);
+  font-weight: 600;
+}
+
+/* Progress Bar */
+.dbz-progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.dbz-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+.dbz-progress-text {
+  font-size: 0.875rem;
+  color: var(--dbz-dark);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+/* Game Area */
+.dbz-game-area {
+  background: linear-gradient(135deg, var(--dbz-light) 0%, #fff 100%);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(255, 107, 0, 0.15);
+}
+
+.dbz-character-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--dbz-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Items Grid */
+.dbz-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.dbz-items-grid.wrong {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Item Button */
+.dbz-item-button {
+  aspect-ratio: 1;
+  border: 3px solid var(--dbz-primary);
+  background: var(--dbz-light);
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.dbz-item-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.dbz-item-button:hover:not(:disabled) {
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(255, 107, 0, 0.3);
+  background: linear-gradient(135deg, var(--dbz-light) 0%, #ffd70033 100%);
+}
+
+.dbz-item-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dbz-item-button.selected {
+  background: linear-gradient(135deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  color: white;
+  border-color: var(--dbz-primary);
+  transform: scale(1.12);
+  box-shadow: 0 10px 25px rgba(255, 107, 0, 0.4);
+}
+
+.dbz-item-emoji {
+  font-size: 2.5rem;
+}
+
+.dbz-item-form {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.dbz-item-order {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 36px;
+  height: 36px;
+  background: var(--success);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+}
+
+/* Feedback */
+.dbz-feedback {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dbz-feedback.correct {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.dbz-feedback.wrong {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: var(--danger);
+}
+
+/* Completion Screen */
+.dbz-completion {
+  background: linear-gradient(135deg, var(--dbz-light) 0%, #fff 100%);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dbz-completion-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  animation: bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dbz-completion-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.dbz-completion-score {
+  font-size: 1.25rem;
+  color: var(--dbz-dark);
+  margin-bottom: 2rem;
+}
+
+.dbz-completion-score strong {
+  font-size: 2rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* Buttons */
+.dbz-completion-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dbz-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: inherit;
+}
+
+.dbz-btn-save {
+  background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.dbz-btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+}
+
+.dbz-btn-restart {
+  background: linear-gradient(135deg, var(--dbz-primary) 0%, var(--dbz-secondary) 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+}
+
+.dbz-btn-restart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 0, 0.4);
+}
+
+.dbz-btn-saved {
+  color: var(--success);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .dbz-container {
+    padding: 1rem;
+  }
+
+  .dbz-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dbz-title-section h2 {
+    font-size: 1.75rem;
+  }
+
+  .dbz-game-area {
+    padding: 1.5rem;
+  }
+
+  .dbz-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .dbz-completion {
+    padding: 2rem 1.5rem;
+  }
+
+  .dbz-completion-title {
+    font-size: 1.75rem;
+  }
+
+  .dbz-completion-buttons {
+    flex-direction: column;
+  }
+
+  .dbz-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
